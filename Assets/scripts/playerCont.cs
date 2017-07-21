@@ -4,39 +4,92 @@ using UnityEngine;
 
 public class playerCont : MonoBehaviour {
 
-    public float speed = 5f;
+    private float speed = 5f;
+    private GameObject crossHair;
 
 	// Use this for initialization
 	void Start () {
+        crossHair = GameObject.Find("reticle");
+        toggleRetVis(true);
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        movement();
-	}
+        if (Input.GetKey(KeyCode.Space))
+        {
+            toggleRetVis(true);
+            aim();
+        }
 
-    //movement method
+        else
+        {
+            toggleRetVis(false);
+            movement();
+        }
+        
+    }
+
+    //controls reticle movement
+    void aim()
+    {
+        if (Input.GetKey(KeyCode.D))
+        {
+            crossHair.transform.Translate(Vector2.right * speed * Time.deltaTime);
+        }
+
+        else if (Input.GetKey(KeyCode.A))
+        {
+            crossHair.transform.Translate(-Vector2.right * speed * Time.deltaTime);
+        }
+
+        else if (Input.GetKey(KeyCode.W))
+        {
+            crossHair.transform.Translate(Vector2.up * speed * Time.deltaTime);
+        }
+
+        else if (Input.GetKey(KeyCode.S))
+        {
+            crossHair.transform.Translate(-Vector2.up * speed * Time.deltaTime);
+        }
+
+    }
+
+    //controls reticle visibility and resets position
+    void toggleRetVis(bool hideMe)
+    {
+        crossHair.GetComponent<Renderer>().enabled = hideMe;
+
+        if (hideMe == false)
+        {
+            crossHair.transform.position = Vector2.Lerp(crossHair.transform.position, transform.position, 1);
+        }
+        
+    }
+
+    //controls sprite movement
     void movement()
     {
         if (Input.GetKey(KeyCode.D))
         {
             transform.Translate(Vector2.right * speed * Time.deltaTime);
         }
-        
-        if(Input.GetKey(KeyCode.A))
+
+        else if (Input.GetKey(KeyCode.A))
         {
             transform.Translate(-Vector2.right * speed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.W))
+        else if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector2.up * speed * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S))
         {
             transform.Translate(-Vector2.up * speed * Time.deltaTime);
         }
+
     }
+
 }
