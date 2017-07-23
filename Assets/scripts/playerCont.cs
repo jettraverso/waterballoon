@@ -6,6 +6,8 @@ public class playerCont : MonoBehaviour {
 
     private float speed = 5f;
     private GameObject crossHair;
+    public GameObject wbPrefab;
+    public Transform wbSpawn;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +30,10 @@ public class playerCont : MonoBehaviour {
             movement();
         }
         
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            fire();
+        }
     }
 
     //controls reticle movement
@@ -54,6 +60,14 @@ public class playerCont : MonoBehaviour {
         }
 
     }
+
+    void fire()
+    {
+        var wb = (GameObject)Instantiate(wbPrefab, wbSpawn.position, wbSpawn.rotation);
+        wb.GetComponent<Rigidbody2D>().velocity = wb.transform.up * 6;
+        Destroy(wb, 2.0f);
+    }
+
 
     //controls reticle visibility and resets position
     void toggleRetVis(bool hideMe)
